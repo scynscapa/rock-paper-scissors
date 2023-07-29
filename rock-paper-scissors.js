@@ -14,13 +14,6 @@ function getComputerChoice() {
     }
 }
 
-// getPlayerChoice - get the player's choice - case insensitive
-function getPlayerChoice() {
-    playerSelection = prompt("Enter your selection");
-    playerSelection = playerSelection.toLowerCase();
-    return playerSelection;
-}
-
 // playRound - compare the two choices to determine who won
 function playRound(playerChoice, computerChoice) {
     switch (playerChoice) {
@@ -86,21 +79,48 @@ function game() {
         console.log("Something went wrong");
 }
 
-
-//game();
-//console.log(playRound(getPlayerChoice(), getComputerChoice()));
-
 const container = document.querySelector('#results');
 const div = document.createElement('div');
 
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => {
-    button.addEventListener('click', event => {
-        //console.log(playRound(event.target.textContent, getComputerChoice()));
-        div.textContent = (playRound(event.target.textContent, getComputerChoice()));
-        container.appendChild(div);
-    });
-  });
+    button.addEventListener('click', updateScore);
+});
 
+let playerScore = 0;
+let computerScore = 0;
 
-  
+function updateScore(e) {
+    let winOrLose = e.target.textContent;
+    let divText = playRound(winOrLose, getComputerChoice());
+
+    console.log(`winOrLose: ${winOrLose}, divText: ${divText}`);
+
+    switch (divText) {
+        case "You lose":
+            computerScore++;
+            divText = `You lose this round.`;
+            break;
+        case "You win":
+            playerScore++;
+            divText = `You win this round.`;
+            break;
+        case "Draw":
+            divText = `Draw.`;
+            break;
+    }
+    if (computerScore >= 5) {
+        divText = `${divText}\n Computer Wins!\n${computerScore} to ${playerScore}`;
+        buttons.forEach(button => {
+            button.removeEventListener('click', updateScore);
+        });
+    } else if (playerScore >= 5) {
+        divText = `${divText}\n You Win!\n${playerScore} to ${computerScore}`;
+        buttons.forEach(button => {
+            button.removeEventListener('click', updateScore);
+        });
+    }
+
+    div.textContent = divText;
+    container.appendChild(div);
+}
