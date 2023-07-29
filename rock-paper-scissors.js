@@ -3,13 +3,13 @@ function getComputerChoice() {
     let randNum = Math.floor(Math.random()*3)
     switch (randNum) {
         case 0:
-            return "rock";
+            return "Rock";
             break;
         case 1:
-            return "paper";
+            return "Paper";
             break;
         case 2:
-            return "scissors";
+            return "Scissors";
             break;
     }
 }
@@ -24,33 +24,33 @@ function getPlayerChoice() {
 // playRound - compare the two choices to determine who won
 function playRound(playerChoice, computerChoice) {
     switch (playerChoice) {
-        case "rock":
-            if (computerChoice === "paper") {
+        case "Rock":
+            if (computerChoice === "Paper") {
                 return "You lose";
                 break;
-            } else if (computerChoice === "scissors") {
+            } else if (computerChoice === "Scissors") {
                 return "You win";
                 break;
             } else {
                 return "Draw";
                 break;
             }
-        case "paper":
-            if (computerChoice === "scissors") {
+        case "Paper":
+            if (computerChoice === "Scissors") {
                 return "You lose";
                 break;
-            } else if (computerChoice === "rock") {
+            } else if (computerChoice === "Rock") {
                 return "You win";
                 break;
             } else {
                 return "Draw";
                 break;
             }     
-        case "scissors":
-            if (computerChoice === "rock") {
+        case "Scissors":
+            if (computerChoice === "Rock") {
                 return "You lose";
                 break;
-            } else if (computerChoice === "paper") {
+            } else if (computerChoice === "Paper") {
                 return "You win";
                 break;
             } else {
@@ -87,4 +87,20 @@ function game() {
 }
 
 
-game();
+//game();
+//console.log(playRound(getPlayerChoice(), getComputerChoice()));
+
+const container = document.querySelector('#results');
+const div = document.createElement('div');
+
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => {
+    button.addEventListener('click', event => {
+        //console.log(playRound(event.target.textContent, getComputerChoice()));
+        div.textContent = (playRound(event.target.textContent, getComputerChoice()));
+        container.appendChild(div);
+    });
+  });
+
+
+  
